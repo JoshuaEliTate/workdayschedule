@@ -2,6 +2,9 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
+var today = dayjs();
+$('#currentDay').text(today.format('MMM D, YYYY'));
+
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -21,3 +24,38 @@ $(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
 });
+
+// grabs the input variables
+var formEl = $('#skills-form');
+var nameInputEl = $('#skill-name');
+var dateInputEl = $('#datepicker');
+var skillsListEl = $('#skills-list');
+
+// handles the input and prints them
+var handleFormSubmit = function (event) {
+  event.preventDefault();
+
+  var nameInput = nameInputEl.val();
+  var dateInput = dateInputEl.val();
+
+  if (!nameInput || !dateInput) {
+    console.log('You need to fill out the form!');
+    return;
+  }
+
+  printSkills(nameInput, dateInput);
+
+  // resets form
+  nameInputEl.val('');
+  dateInputEl.val('');
+};
+// grabs the variable and creates a submit
+formEl.on('submit', handleFormSubmit);
+
+// puts the variables into the other form
+var printSkills = function (name, date) {
+  var listEl = $('<li>');
+  var listDetail = name.concat(' on ', date);
+  listEl.addClass('list-group-item').text(listDetail);
+  listEl.appendTo(skillsListEl);
+};
